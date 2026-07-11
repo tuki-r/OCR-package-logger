@@ -216,3 +216,10 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Test images - exclude to protect personal data
+*.HEIC
+*.heic
+*.jpg
+*.jpeg
+*.png
