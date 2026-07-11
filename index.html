@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Package Logger</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+    <header>
+        <span>📦</span>
+        <h1>Package Logger</h1>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h2> Log New Pacage</h2>
+
+            <div class="form-group">
+                <label>Courier Sticker Photo</label>
+                <input type="file" id="imageInput"accept="image/*" capture="environment">
+            </div>
+
+            <div class="form-group">
+                <label>Delivery Company</label>
+                <input type="text" id="deliveryCompanyInput" placeholder="Enter delivery company name(e.g Aramex,TCG,IE)">
+                </div>
+
+                <button id="submitBtn" onclick="submitPackage()">Log Package</button>
+
+                <div id="result"></div>
+        </div>
+    </div>
+    
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

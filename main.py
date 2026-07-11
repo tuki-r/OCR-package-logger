@@ -1,4 +1,6 @@
 from fastapi import FastAPI, UploadFile, File, Form
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from typing import Optional
 import pytesseract
 from PIL import Image
@@ -8,11 +10,13 @@ import io
 from parser import parse_courier_text
 from crud import insert_package
 
+
 register_heif_opener()
 
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 app = FastAPI()
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.post("/upload")
 async def upload_image(
@@ -47,3 +51,7 @@ async def upload_image(
         "delivery_company": delivery_company
     }
     
+@app.get("/")
+def serve_frontend():
+    return FileResponse("index.html")
+
