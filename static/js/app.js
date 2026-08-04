@@ -84,12 +84,14 @@ function renderTable(packages) {
 
     tbody.innerHTML = filtered.map(p => `
         <tr>
+            <td>${p.DateLogged || '—'}</td>
+            <td>${p.DeliveryComp_Name || '—'}</td>
             <td>${p.ResidentName || '—'}</td>
             <td>${p.Unit || '—'}</td>
             <td>${p.PhoneNumber || '—'}</td>
-            <td>${p.DeliveryComp_Name || '—'}</td>
             <td><span class="badge ${p.Status === 'Collected' ? 'badge-collected' : 'badge-waiting'}">${p.Status}</span></td>
-            <td>${p.DateLogged || '—'}</td>
+            <td>${p.CollectedBy || '—'}</td>
+            <td>${p.Relation || '—'}</td>
             <td>${p.DateCollected || '—'}</td>
         </tr>
     `).join('');
