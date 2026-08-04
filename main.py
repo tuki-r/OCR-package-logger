@@ -9,6 +9,7 @@ import io
 
 from parser import parse_courier_text
 from crud import insert_package
+from crud import get_all_packages
 
 
 register_heif_opener()
@@ -54,4 +55,8 @@ async def upload_image(
 @app.get("/")
 def serve_frontend():
     return FileResponse("index.html")
+
+@app.get("/packages")
+def list_packages():
+    return get_all_packages()
 
