@@ -29,19 +29,19 @@ async function submitPackage() {
 
         if (response.ok) {
             resultDiv.className = 'success';
-            resultDiv.innerHTML = `✅ Package logged — ${data.name || 'Unknown'}, Unit ${data.unit || '?'}`;
+            resultDiv.innerHTML = `Package logged — ${data.name || 'Unknown'}, Unit ${data.unit || '?'}`;
             fileInput.value = '';
             document.getElementById('deliveryCompany').value = '';
             loadPackages(); // refresh the table
         } else {
             resultDiv.className = 'error';
-            resultDiv.innerHTML = '❌ Error logging package. Please try again.';
+            resultDiv.innerHTML = ' Error logging package. Please try again.';
         }
 
     } catch (error) {
         resultDiv.style.display = 'block';
         resultDiv.className = 'error';
-        resultDiv.innerHTML = '❌ Could not connect to server.';
+        resultDiv.innerHTML = ' Could not connect to server.';
     } finally {
         submitBtn.disabled = false;
         submitBtn.textContent = 'Log Package';

@@ -1,4 +1,4 @@
-* { box-sizing: border-box; margin: 0; padding: 0; }
+
 
 body {
     font-family: 'Segoe UI', Arial, sans-serif;
@@ -7,220 +7,38 @@ body {
 }
 
 header {
-    background: #1B2A4A;
+    background: #4A90E2;
     color: white;
-    padding: 18px 40px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-header h1 { font-size: 20px; font-weight: 600; letter-spacing: 0.3px; }
-
-.container {
-    max-width: 1100px;
-    margin: 30px auto;
-    padding: 0 20px;
-}
-
-/* LOG FORM CARD */
-.card {
-    background: white;
-    border-radius: 10px;
-    padding: 28px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-    margin-bottom: 30px;
-}
-
-.card h2 {
-    font-size: 16px;
-    font-weight: 600;
-    color: #1B2A4A;
+    padding: 20px;
+    text-align: center;
     margin-bottom: 20px;
-    padding-bottom: 12px;
-    border-bottom: 2px solid #F0F2F5;
 }
 
-.form-row {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-}
-
-.form-group {
-    flex: 1;
-    min-width: 200px;
-    margin-bottom: 16px;
-}
-
-label {
-    display: block;
-    margin-bottom: 6px;
-    font-size: 13px;
-    font-weight: 600;
-    color: #6B7280;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-input[type="text"],
-input[type="file"] {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #E5E7EB;
-    border-radius: 6px;
-    font-size: 14px;
-    background: #FAFAFA;
-    transition: border-color 0.2s;
-}
-
-input[type="text"]:focus,
-input[type="file"]:focus {
-    outline: none;
-    border-color: #1B2A4A;
-    background: white;
-}
-
-.btn-submit {
-    background: #1B2A4A;
-    color: white;
-    padding: 11px 28px;
-    border: none;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-.btn-submit:hover { background: #2d4270; }
-.btn-submit:disabled { background: #9CA3AF; cursor: not-allowed; }
-
-#result {
-    display: none;
-    margin-top: 16px;
-    padding: 14px;
-    border-radius: 6px;
-    font-size: 14px;
-}
-
-#result.success {
-    background: #ECFDF5;
-    border-left: 4px solid #2D7A4F;
-    color: #2D7A4F;
-}
-
-#result.error {
-    background: #FEF2F2;
-    border-left: 4px solid #DC2626;
-    color: #DC2626;
-}
-
-/* PACKAGES TABLE */
 .table-card {
     background: white;
-    border-radius: 10px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 5px 7px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
 }
 
-.table-header {
-    padding: 20px 28px;
-    border-bottom: 2px solid #F0F2F5;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 5px 7px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
 }
 
-.table-header h2 {
-    font-size: 16px;
-    font-weight: 600;
-    color: #1B2A4A;
+th, td {
+    padding: 15px;
+    text-align: justify;
+    
+
 }
 
 .tab-buttons {
     display: flex;
-    gap: 8px;
+    align-items: flex-start;
+    padding: 7px;
 }
-
-.tab-btn {
-    padding: 6px 16px;
-    border: 1px solid #E5E7EB;
-    border-radius: 20px;
-    background: white;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    color: #6B7280;
-    transition: all 0.2s;
-}
-
-.tab-btn.active {
-    background: #1B2A4A;
-    color: white;
-    border-color: #1B2A4A;
-}
-
-.table-wrapper { overflow-x: auto; }
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 14px;
-}
-
-thead {
-    background: #F9FAFB;
-}
-
-thead th {
-    padding: 12px 16px;
-    text-align: left;
-    font-size: 12px;
-    font-weight: 700;
-    color: #6B7280;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    border-bottom: 1px solid #E5E7EB;
-}
-
-tbody tr {
-    border-bottom: 1px solid #F3F4F6;
-    transition: background 0.15s;
-}
-
-tbody tr:hover { background: #F9FAFB; }
-
-tbody td {
-    padding: 14px 16px;
-    color: #374151;
-    vertical-align: middle;
-}
-
-.badge {
-    display: inline-block;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.3px;
-}
-
-.badge-waiting {
-    background: #FEF3C7;
-    color: #92400E;
-}
-
-.badge-collected {
-    background: #D1FAE5;
-    color: #065F46;
-}
-
-.empty-state {
-    text-align: center;
-    padding: 50px 20px;
-    color: #9CA3AF;
-    font-size: 15px;
-}
-
-.empty-state .icon { font-size: 40px; margin-bottom: 10px; }
