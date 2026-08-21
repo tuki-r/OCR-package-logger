@@ -15,7 +15,7 @@ async function submitPackage() {
     formData.append('delivery_company', deliveryCompany);
 
     submitBtn.disabled = true;
-    submitBtn.textContent = '⏳ Processing...';
+    submitBtn.textContent = 'Processing...';
     resultDiv.style.display = 'none';
 
     try {
@@ -29,19 +29,19 @@ async function submitPackage() {
 
         if (response.ok) {
             resultDiv.className = 'success';
-            resultDiv.innerHTML = `Package logged — ${data.name || 'Unknown'}, Unit ${data.unit || '?'}`;
+            resultDiv.innerHTML = `:) Package logged — ${data.name || 'Unknown'}, Unit ${data.unit || '?'}`;
             fileInput.value = '';
             document.getElementById('deliveryCompany').value = '';
             loadPackages(); // refresh the table
         } else {
             resultDiv.className = 'error';
-            resultDiv.innerHTML = ' Error logging package. Please try again.';
+            resultDiv.innerHTML = ' :( Error logging package. Please try again.';
         }
 
     } catch (error) {
         resultDiv.style.display = 'block';
         resultDiv.className = 'error';
-        resultDiv.innerHTML = ' Could not connect to server.';
+        resultDiv.innerHTML = ' :( Could not connect to server.';
     } finally {
         submitBtn.disabled = false;
         submitBtn.textContent = 'Log Package';
@@ -57,7 +57,7 @@ async function loadPackages() {
         const packages = await response.json();
         renderTable(packages);
     } catch (error) {
-        console.error('Could not load packages:', error);
+        console.error(':( Could not load packages:', error);
     }
 }
 
@@ -74,7 +74,7 @@ function renderTable(packages) {
             <tr>
                 <td colspan="7">
                     <div class="empty-state">
-                        <div class="icon">📭</div>
+                        <div class="icon">.</div>
                         No packages found
                     </div>
                 </td>
