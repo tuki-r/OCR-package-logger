@@ -30,3 +30,31 @@ def get_all_packages():
         if row['DateCollected']:
             row['DateCollected'] = row['DateCollected'].strftime('%Y-%m-%d %H:%M')
     return rows
+
+def mark_as_collected(package_id, collected_by, relation):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        UPDATE ExtractedDocs
+        SET Status = 'Collected',
+            CollectedBy = ?,
+            Relation = ?
+        WHERE ID = ?
+        """, (collected_by, relation, package_id))
+    conn.commit()
+    conn.close()
+
+def remove_package(package_id: int):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM ExtractedDocs WHERE ID = ?", (package_id,))
+    conn.commit()
+    conn.close()
+
+def get_package_image(package_id: int):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT ImageData FROM ExtractedDocs WHERE ID = ?", (package_id,))
+    row = cursor.fetchone()
+    conn.close()
+    return row[0] if row else None

@@ -1,5 +1,8 @@
-// ── Submit new package ──────────────────────────────────────────
-async function submitPackage() {
+let currentPackageID = null;
+let currentFilter = 'all';
+
+
+async function submitPackage () {
     const fileInput = document.getElementById('imageInput');
     const deliveryCompany = document.getElementById('deliveryCompany').value;
     const resultDiv = document.getElementById('result');
@@ -19,7 +22,7 @@ async function submitPackage() {
     resultDiv.style.display = 'none';
 
     try {
-        const response = await fetch('http://127.0.0.1:8000/upload', {
+        const response = await fetch('http://localhost:8000/upload', {
             method: 'POST',
             body: formData
         });
@@ -48,12 +51,13 @@ async function submitPackage() {
     }
 }
 
+
 // ── Load and display packages ───────────────────────────────────
-let currentFilter = 'all';
+
 
 async function loadPackages() {
     try {
-        const response = await fetch('http://127.0.0.1:8000/packages');
+        const response = await fetch('http://localhost:8000/packages');
         const packages = await response.json();
         renderTable(packages);
     } catch (error) {
@@ -93,7 +97,8 @@ function renderTable(packages) {
             <td>${p.CollectedBy || '—'}</td>
             <td>${p.Relation || '—'}</td>
             <td>${p.DateCollected || '—'}</td>
-        </tr>
+            <td><button class="btn btn-secondary" onclick="openModal(${p.ID})">Manage</button></td>
+        </tr> 
     `).join('');
 }
 
@@ -105,4 +110,99 @@ function setFilter(filter) {
 }
 
 // Load packages when page opens
+
+function openModal(packageID) {
+    console.log('openModal called with ID:', packageID);
+    currentPackageID = packageID;
+
+    document.getElementById('collectedByInput').value = '';
+    document.getElementById('relationshipSelect').value = '';
+    document.getElementById('imageContainer').style.display = 'none';
+    document.getElementById('stickerImage').src = '';
+
+    document.getElementById('manageModal').style.display = 'block';
+}
+
+function closeModal() {
+    document.getElementById('manageModal').style.display = 'none';
+    currentPackageID = null;
+}
+
+async function viewImage() {
+    if (!currentPackageID) return;
+
+    try {
+        const response = await fetch (`http://localhost:8000/packages/${currentPackageID}/image`);
+        const data = await response.json();
+
+        if (response.ok && data.image) {
+            document.getElementById('stickerImage').src = `data:image/jpeg;base64,${data.image}`;
+            document.getElementById('imageContainer').style.display = 'block';
+        } else {
+            alert('No image found');
+        }
+    } catch (error) {
+        alert('Could not load image');
+    }
+    
+}
+ 
+async function confirmCollected () {
+    const collectedBy = document.getElementById('collectedByInput').value.trim();
+    const relation = document.getElementById('relationshipSelect').value;
+    
+    if (!collectedBy) {
+        alert('Please enter the name of the person collecting');
+        return;
+    }
+
+    if (!relation) {
+        alert('Please select a relationship');
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('collected_by', collectedBy);
+    formData.append('relation', relation)
+
+    try {
+        const response = await fetch (`http://localhost:8000/packages/${currentPackageID}/collect`, {
+            method: 'PUT',
+            body: formData
+        });
+
+        if (response.ok) {
+            closeModal();
+            loadPackages();
+        } else {
+            alert('Failed to mark as collected');
+        }
+    } catch (error) {
+        alert('Could not connect to server');
+    }
+}
+
+async function confirmPackage() {
+    if(!confirm('Are you sure you want to delte this log? This cant be undone.')) return;
+    
+    try {
+        const response = await fetch (`http://localhost:8000/packages/${currentPackageID}`, {
+            method: 'DELETE'
+        });
+
+        if (response.ok) {
+            closeModal();
+            loadPackages();
+        } else {
+            alert('Failed to delete package');
+        }
+    } catch (error) {
+        alert('Could not connect to server');
+    }
+}
+
+document.getElementById('manageModal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+});
+
 window.addEventListener('load', loadPackages);

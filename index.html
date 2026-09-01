@@ -54,13 +54,13 @@
                             <th>Collected By</th>
                             <th>Relation</th> </th>
                             <th>Date Collected</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody id="packageTableBody">
                         <tr>
-                            <td colspan="7">
-                                <div class="empty-state">
-                                    <div class="icon">📭</div>
+                            <td colspan="10">
+                                <div class="empty-state"> 
                                     Loading packages...
                                 </div>
                             </td>
@@ -71,6 +71,48 @@
         </div>
 
     </div>
+
+<div id="manageModal" class="modal-overlay">
+    <div class="modal-box">
+
+        <h3 class="modal-title">Manage Package</h3>
+
+        <div class="modal-content">
+            <button class="btn-view-image" onclick="viewImage()">View Image</button>
+            <div id="imageContainer" class="image-container">
+                <img id="stickerImage" src="" class="Image-preview">
+            </div>
+        </div>
+
+        <hr class="modal-divider">
+
+        <div class ="form-group">
+            <label>Collected By</label>
+            <input type="text" id="collectedByInput" placeholder="Enter name of collector">
+        </div>
+
+        <div class ="form-group">
+            <label>Relationship to Resident</label>
+            <select id="relationshipSelect">
+                <option value="">Select relationship</option>
+                <option value="Family">Family</option>
+                <option value="Friend">Friend</option>
+                <option value="Neighbor">Neighbour</option>
+                <option value="Self">Self</option>
+                <option value="Partner">Partner</option>
+                <option value="Other">Other</option>
+                <option value="Helper/Domestic Worker">Helper/Domestic Worker</option>
+            </select>
+        </div>
+
+        <div class="modal-actions">
+            <button class="btn-collect" id="collectBtn" onclick="confirmCollected()">Mark as Collected</button>
+            <button class="btn-delete" id="deleteBtn" onclick="confirmPackage()">Delete Log</button>
+            <button class="btn-close" id="closeModalBtn" onclick="closeModal()">Cancel</button>
+        </div>
+
+    </div>
+</div>
 
     <script src="/static/js/app.js"></script>
 </body>

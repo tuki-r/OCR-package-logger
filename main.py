@@ -5,11 +5,12 @@ from typing import Optional
 import pytesseract
 from PIL import Image
 from pillow_heif import register_heif_opener
+from fastapi.responses import JSONResponse
 import io
+import base64
 
 from parser import parse_courier_text
-from crud import insert_package
-from crud import get_all_packages
+from crud import insert_package, get_all_packages, mark_as_collected, remove_package, get_package_image
 
 
 register_heif_opener()
@@ -59,4 +60,26 @@ def serve_frontend():
 @app.get("/packages")
 def list_packages():
     return get_all_packages()
+
+
+@app.put("/packages/{package_id}/collect")
+def collect_package(package_id: int, collected_by: str = Form(...), relation: str = Form(...)):
+    from crud import mark_as_collected
+    mark_as_collected(package_id, collected_by, relation)
+    return {"message": "Package marked as collected"}
+
+@app.delete("/packages/{package_id}")
+def delete_package(package_id: int):
+    from crud import remove_package
+    remove_package(package_id)
+    return {"message": "Package removed successfully"}
+
+@app.get("/packages/{package_id}/image")
+def get_image(package_id: int):
+    from crud import get_package_image
+    image_bytes = get_package_image(package_id)
+    if not image_bytes:
+        return JSONResponse(status_code=404, content={"error": "Image not found"})
+    encoded = base64.b64encode(image_bytes).decode("utf-8")
+    return {"image": encoded}
 
