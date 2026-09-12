@@ -116,7 +116,6 @@ function setFilter(filter) {
 // Load packages when page opens
 
 function openModal(packageID) {
-    console.log('openModal called with ID:', packageID);
     currentPackageID = packageID;
 
     document.getElementById('collectedByInput').value = '';
@@ -140,6 +139,7 @@ async function viewImage(type = 'sticker') {
         const data = await response.json();
 
         if (response.ok && data.image) {
+            document.getElementById('imageLabel').textContent = type === 'sticker' ? 'Courier Sticker' : 'Package Photo';
             document.getElementById('stickerImage').src = `data:image/jpeg;base64,${data.image}`;
             document.getElementById('imageContainer').style.display = 'block';
         } else {

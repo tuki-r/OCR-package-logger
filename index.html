@@ -29,7 +29,7 @@
                     <input type="file" id="packageImageInput" accept="image/*" capture="environment">
                     <small> Optional, visual reference</small>
                 </div>
-                
+
                 <div class="form-group">
                     <label>Delivery Company</label>
                     <input type="text" id="deliveryCompany" placeholder="e.g. DHL, Aramex, PostNet">
@@ -89,6 +89,7 @@
             <button class="btn-view-image" onclick="viewImage('sticker')">View Sticker</button>
             <button class="btn-view-image" onclick="viewPackageImage()">View Package Image</button>
             <div id="imageContainer" class="image-container">
+                <p id="imageLabel"></p>
                 <img id="stickerImage" src="" class="Image-preview">
             </div>
         </div>
