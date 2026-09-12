@@ -1,13 +1,13 @@
 from database import get_connection
 
-def insert_package(image_bytes, name, unit, phone, delivery_company):
+def insert_package(image_bytes, package_image_bytes, name, unit, phone, delivery_company):
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("""
         INSERT INTO ExtractedDocs 
-            (ImageData, ResidentName, Unit, PhoneNumber, DeliveryComp_Name)
-        VALUES (?, ?, ?, ?, ?)
-    """, (image_bytes, name, unit, phone, delivery_company))
+            (ImageData, PackageImage, ResidentName, Unit, PhoneNumber, DeliveryComp_Name)
+        VALUES (?, ?, ?, ?, ?, ?)
+    """, (image_bytes, package_image_bytes, name, unit, phone, delivery_company))
     conn.commit()
     conn.close()
 
@@ -51,10 +51,11 @@ def remove_package(package_id: int):
     conn.commit()
     conn.close()
 
-def get_package_image(package_id: int):
+def get_package_image(package_id: int, type: str = "sticker"):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT ImageData FROM ExtractedDocs WHERE ID = ?", (package_id,))
+    column = "ImageData" if type == "sticker" else "PackageImage"
+    cursor.execute(f"SELECT {column} FROM ExtractedDocs WHERE ID = ?", (package_id,)) 
     row = cursor.fetchone()
     conn.close()
     return row[0] if row else None

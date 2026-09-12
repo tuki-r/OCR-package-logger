@@ -32,15 +32,16 @@ header {
     padding: 20px; 
     border-radius: 5px;
 }
-.form-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
 .form-group {
     display: flex;
     flex: 1;
     min-width: 200px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+small {
+    color: #666;
+    font-weight: bold;
 }
 h2 {
     border:3px solid  #4A90E2;
@@ -62,6 +63,14 @@ label {
 }
 
 #deliveryCompany{
+    width: 100%;
+    padding: 5px;
+    background: #f1f1f1;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s ease;
+}
+#packageImageInput{
     width: 100%;
     padding: 5px;
     background: #f1f1f1;
@@ -146,7 +155,7 @@ table {
 
 
 h3 {
-    border: 2px solid #4A90E2;
+    border: 2px solid rgb(29, 29, 82);
     padding: 5px;
     background-color: white;
 }
@@ -169,3 +178,70 @@ h3 {
     border-radius: 10px;
     padding: 20px;
 }
+
+.btn {
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-secondary {
+    background-color: #4A90E2;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: red;
+    font-weight: bold;
+}
+
+#collectedByInput {
+    margin-left: 15px;
+}
+
+#relationshipSelect {
+    margin-left: 15px;
+    margin-top: auto;
+}
+label {
+    margin-top: auto;
+}
+
+.modal-actions {
+    margin-top: 10px;
+}
+
+.btn-collect {
+    cursor: pointer;
+}
+
+.btn-delete {
+    cursor: pointer;
+}
+
+.btn-close {
+    cursor: pointer;
+}
+.btn-view-image {
+    cursor: pointer;
+}
+
+.btn-view-image:hover {
+    background-color: white;
+}
+
+.btn-collect:hover {
+    background-color: greenyellow;
+}
+
+.btn-delete:hover {
+    background-color: red;
+}
+
+.btn-close:hover {
+    background-color: white;
+}
+

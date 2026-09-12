@@ -15,6 +15,10 @@ async function submitPackage () {
 
     const formData = new FormData();
     formData.append('file', fileInput.files[0]);
+    const packageImageInput = document.getElementById('packageImageInput');
+    if (packageImageInput.files[0]) {
+        formData.append('package_image', packageImageInput.files[0]);
+    }
     formData.append('delivery_company', deliveryCompany);
 
     submitBtn.disabled = true;
@@ -128,11 +132,11 @@ function closeModal() {
     currentPackageID = null;
 }
 
-async function viewImage() {
+async function viewImage(type = 'sticker') {
     if (!currentPackageID) return;
 
     try {
-        const response = await fetch (`http://localhost:8000/packages/${currentPackageID}/image`);
+        const response = await fetch (`http://localhost:8000/packages/${currentPackageID}/image?type=${type}`);
         const data = await response.json();
 
         if (response.ok && data.image) {

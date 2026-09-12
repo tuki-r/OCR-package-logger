@@ -23,6 +23,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 @app.post("/upload")
 async def upload_image(
     file: UploadFile = File(...),
+    package_image: Optional[UploadFile] = File(None),
     delivery_company: Optional[str] = Form(None)
 ):
     # Read image
@@ -36,9 +37,14 @@ async def upload_image(
     # Parse the text
     parsed = parse_courier_text(extracted_text)
 
+    package_image_bytes = None
+    if package_image:
+        package_image_bytes = await package_image.read()
+
     # Insert into database
     insert_package(
         image_bytes=contents,
+        package_image_bytes=package_image_bytes,
         name=parsed['name'],
         unit=parsed['unit'],
         phone=parsed['phone'],
@@ -75,9 +81,9 @@ def delete_package(package_id: int):
     return {"message": "Package removed successfully"}
 
 @app.get("/packages/{package_id}/image")
-def get_image(package_id: int):
+def get_image(package_id: int, type: str = "sticker"):
     from crud import get_package_image
-    image_bytes = get_package_image(package_id)
+    image_bytes = get_package_image(package_id, type)
     if not image_bytes:
         return JSONResponse(status_code=404, content={"error": "Image not found"})
     encoded = base64.b64encode(image_bytes).decode("utf-8")

@@ -17,16 +17,24 @@
         <!-- LOG FORM -->
         <div class="card">
             <h2>Log New Package</h2>
-            <div class="form-row">
                 <div class="form-group">
                     <label>Courier Sticker Photo</label>
                     <input type="file" id="imageInput" accept="image/*" capture="environment">
+                    <small> Used for OCR extraction</small>
+                    <!-- to read/extract text from the courier sticker image -->
                 </div>
+
+                <div class ="form-group">
+                    <label>Package Photo</label>
+                    <input type="file" id="packageImageInput" accept="image/*" capture="environment">
+                    <small> Optional, visual reference</small>
+                </div>
+                
                 <div class="form-group">
                     <label>Delivery Company</label>
                     <input type="text" id="deliveryCompany" placeholder="e.g. DHL, Aramex, PostNet">
                 </div>
-            </div>
+            
             <button class="btn-submit" id="submitBtn" onclick="submitPackage()">Log Package</button>
             <div id="result"></div>
         </div>
@@ -78,7 +86,8 @@
         <h3 class="modal-title">Manage Package</h3>
 
         <div class="modal-content">
-            <button class="btn-view-image" onclick="viewImage()">View Image</button>
+            <button class="btn-view-image" onclick="viewImage('sticker')">View Sticker</button>
+            <button class="btn-view-image" onclick="viewPackageImage()">View Package Image</button>
             <div id="imageContainer" class="image-container">
                 <img id="stickerImage" src="" class="Image-preview">
             </div>
