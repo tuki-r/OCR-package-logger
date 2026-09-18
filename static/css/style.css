@@ -245,3 +245,21 @@ label {
     background-color: white;
 }
 
+.badge-collected {
+    background-color: green;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    display: inline-block;
+}
+.badge-waiting {
+    background-color: #fff3cd;
+    color: black;
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+}
