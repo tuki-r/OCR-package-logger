@@ -79,10 +79,14 @@ BEGIN
     END
 END;
 ```
-
+### Development moode
 5. Start the server:
 ```bash
 uvicorn main:app --reload
+```
+### Production mode
+```bash
+python main.py
 ```
 
 6. Open your browser and go to:
