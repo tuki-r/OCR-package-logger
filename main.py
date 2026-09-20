@@ -96,6 +96,8 @@ def get_image(package_id: int, type: str = "sticker"):
     encoded = base64.b64encode(image_bytes).decode("utf-8")
     return {"image": encoded}
 
+
+# Production entry point for devlopment use: uvicorn main:app --reload
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(
