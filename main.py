@@ -1,3 +1,5 @@
+# Imports
+# FastAPI and related modules
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
@@ -12,9 +14,10 @@ import base64
 from parser import parse_courier_text
 from crud import insert_package, get_all_packages, mark_as_collected, remove_package, get_package_image
 
-
+# register HEIF opener for handling HEIC/HEIF images
 register_heif_opener()
 
+# Set the path to the Tesseract executable
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 app = FastAPI()
@@ -26,7 +29,8 @@ async def upload_image(
     package_image: Optional[UploadFile] = File(None),
     delivery_company: Optional[str] = Form(None)
 ):
-    # Read image
+    # Read image 
+    # Convert to RGB if necessary
     contents = await file.read()
     image = Image.open(io.BytesIO(contents))
     image = image.convert('RGB')
@@ -71,6 +75,7 @@ def list_packages():
 @app.put("/packages/{package_id}/collect")
 def collect_package(package_id: int, collected_by: str = Form(...), relation: str = Form(...)):
     from crud import mark_as_collected
+    # SQL trigger trg_DateCollected will automatically set the date_collected field to the current timestamp
     mark_as_collected(package_id, collected_by, relation)
     return {"message": "Package marked as collected"}
 
@@ -83,9 +88,21 @@ def delete_package(package_id: int):
 @app.get("/packages/{package_id}/image")
 def get_image(package_id: int, type: str = "sticker"):
     from crud import get_package_image
+    # type='sticker' or 'package' returns the corresponding image bytes from the database
+    # Images stored as VARBINARY in SQL Server, returned as base64 for JSON transport
     image_bytes = get_package_image(package_id, type)
     if not image_bytes:
         return JSONResponse(status_code=404, content={"error": "Image not found"})
     encoded = base64.b64encode(image_bytes).decode("utf-8")
     return {"image": encoded}
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(
+        "main:app",
+        host="0.0.0.0", 
+        port=8000, 
+        reload=False, 
+        workers=4
+    )
 
