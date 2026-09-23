@@ -31,19 +31,29 @@ async def upload_image(
 ):
     # Read image 
     # Convert to RGB if necessary
-    contents = await file.read()
-    image = Image.open(io.BytesIO(contents))
-    image = image.convert('RGB')
+    raw_contents = await file.read()
+    sticker_image = Image.open(io.BytesIO(raw_contents))
+    sticker_image = sticker_image.convert('RGB')
+    buffer = io.BytesIO()
+    sticker_image.save(buffer, format="JPEG")
+    contents = buffer.getvalue()
+
 
     # Run OCR
-    extracted_text = pytesseract.image_to_string(image)
+    extracted_text = pytesseract.image_to_string(sticker_image)
 
     # Parse the text
     parsed = parse_courier_text(extracted_text)
 
     package_image_bytes = None
     if package_image:
-        package_image_bytes = await package_image.read()
+        pkg_contents = await package_image.read()
+        pkg_image = Image.open(io.BytesIO(pkg_contents))
+        pkg_image = pkg_image.convert('RGB')
+        #Save as JPEG to a buffer
+        buffer = io.BytesIO()
+        pkg_image.save(buffer, format="JPEG")
+        package_image_bytes = buffer.getvalue()
 
     # Insert into database
     insert_package(

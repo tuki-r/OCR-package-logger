@@ -140,6 +140,8 @@ async function viewImage(type = 'sticker') {
 
         if (response.ok && data.image) {
             document.getElementById('imageLabel').textContent = type === 'sticker' ? 'Courier Sticker' : 'Package Photo';
+            console.log('Image data length:', data.image ? data.image.length : 'Null');
+             console.log('First 20 chars:', data.image ? data.image.substring(0, 20) : 'Null');
             document.getElementById('stickerImage').src = `data:image/jpeg;base64,${data.image}`;
             document.getElementById('imageContainer').style.display = 'block';
         } else {
