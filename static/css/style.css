@@ -151,9 +151,6 @@ table {
     max-width: 1100px;
 }
 
-
-
-
 h3 {
     border: 2px solid rgb(29, 29, 82);
     padding: 5px;
@@ -231,18 +228,22 @@ label {
 
 .btn-view-image:hover {
     background-color: white;
+    font-weight: bold;
 }
 
 .btn-collect:hover {
     background-color: greenyellow;
+    font-weight: bold;
 }
 
 .btn-delete:hover {
     background-color: red;
+    font-weight: bold;
 }
 
 .btn-close:hover {
     background-color: white;
+    font-weight: bold;
 }
 
 .badge-collected {
@@ -262,4 +263,12 @@ label {
     border-radius: 4px;
     font-size: 12px;
     font-weight: bold;
+}
+
+.sticker-preview, .Image-preview {
+    width: 100%;
+    max-height: 300px;
+    object-fit: contain;
+    border: 3px solid black;
+    border-radius: 6px;
 }
