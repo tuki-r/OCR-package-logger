@@ -59,16 +59,6 @@ async function submitPackage () {
 // ── Load and display packages ───────────────────────────────────
 
 
-async function loadPackages() {
-    try {
-        const response = await fetch('http://localhost:8000/packages');
-        const packages = await response.json();
-        renderTable(packages);
-    } catch (error) {
-        console.error(':( Could not load packages:', error);
-    }
-}
-
 function renderTable(packages) {
     const tbody = document.getElementById('packageTableBody');
     const filtered = packages.filter(p => {
@@ -110,7 +100,12 @@ function setFilter(filter) {
     currentFilter = filter;
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
     document.getElementById('tab-' + filter).classList.add('active');
-    loadPackages();
+    const query = document.getElementById('searchInput').value.trim();
+    if (query) {
+        searchPackages(query);
+    } else {
+        renderTable(allPackages);
+    }
 }
 
 // Load packages when page opens
@@ -212,3 +207,27 @@ document.getElementById('manageModal').addEventListener('click', function(e) {
 });
 
 window.addEventListener('load', loadPackages);
+
+function searchPackages(query) {
+    const filtered = allPackages.filter(p => {
+        const name = (p.ResidentName || '').toLowerCase();
+        const unit = String(p.Unit || '');
+        const search = query.toLowerCase();
+        const matchesSearch = name.includes(search) || unit.includes(search);
+        const matchesFilter = currentFilter === 'all' || (currentFilter === 'waiting' && p.Status === 'Waiting') || (currentFilter === 'collected' && p.Status === 'Collected');
+        return matchesSearch && matchesFilter;
+    });
+    renderTable(filtered);
+}
+
+let allPackages = [];
+
+async function loadPackages() {
+    try {
+        const response = await fetch('http://localhost:8000/packages');
+        allPackages = await response.json();
+        renderTable(allPackages);
+    } catch (error) {
+        console.error('Error loading packages:', error);
+    }
+}

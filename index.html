@@ -48,6 +48,9 @@
                     <button class="tab-btn" id="tab-waiting" onclick="setFilter('waiting')">Waiting</button>
                     <button class="tab-btn" id="tab-collected" onclick="setFilter('collected')">Collected</button>
                 </div>
+                <div>
+                    <input type="text" id="searchInput" placeholder="Search by name or unit" oninput="searchPackages(this.value)">
+                </div>
             </div>
             <div class="table-wrapper">
                 <table>
