@@ -26,7 +26,7 @@ async function submitPackage () {
     resultDiv.style.display = 'none';
 
     try {
-        const response = await fetch('http://localhost:8000/upload', {
+        const response = await fetch('/upload', {
             method: 'POST',
             body: formData
         });
@@ -130,7 +130,7 @@ async function viewImage(type = 'sticker') {
     if (!currentPackageID) return;
 
     try {
-        const response = await fetch (`http://localhost:8000/packages/${currentPackageID}/image?type=${type}`);
+        const response = await fetch (`/packages/${currentPackageID}/image?type=${type}`);
         const data = await response.json();
 
         if (response.ok && data.image) {
@@ -167,7 +167,7 @@ async function confirmCollected () {
     formData.append('relation', relation)
 
     try {
-        const response = await fetch (`http://localhost:8000/packages/${currentPackageID}/collect`, {
+        const response = await fetch (`/packages/${currentPackageID}/collect`, {
             method: 'PUT',
             body: formData
         });
@@ -187,7 +187,7 @@ async function confirmPackage() {
     if(!confirm('Are you sure you want to delte this log? This cant be undone.')) return;
     
     try {
-        const response = await fetch (`http://localhost:8000/packages/${currentPackageID}`, {
+        const response = await fetch (`/packages/${currentPackageID}`, {
             method: 'DELETE'
         });
 
@@ -224,7 +224,7 @@ let allPackages = [];
 
 async function loadPackages() {
     try {
-        const response = await fetch('http://localhost:8000/packages');
+        const response = await fetch('/packages');
         allPackages = await response.json();
         renderTable(allPackages);
     } catch (error) {
