@@ -57,8 +57,8 @@ def remove_package(package_id: int):
 def get_package_image(package_id: int, type: str = "sticker"):
     conn = get_connection()
     cursor = conn.cursor()
-    column = "ImageData" if type == "sticker" else "PackageImage"
-    cursor.execute(f"SELECT {column} FROM ExtractedDocs WHERE ID = ?", (package_id,)) 
+    allowed_columns = {"sticker": "ImageData", "package": "PackageImage"} 
+    column = allowed_columns.get(type, "ImageData")  # Default to ImageData if type is invalid 
     row = cursor.fetchone()
     conn.close()
     return row[0] if row else None
