@@ -10,6 +10,7 @@ from pillow_heif import register_heif_opener
 from fastapi.responses import JSONResponse
 import io
 import base64
+import shutil
 
 from parser import parse_courier_text
 from crud import insert_package, get_all_packages, mark_as_collected, remove_package, get_package_image
@@ -117,4 +118,11 @@ if __name__ == "__main__":
         reload=False, 
         workers=4
     )
+
+tesseract_path = shutil.which("tesseract")
+if tesseract_path:
+    pytesseract.pytesseract.tesseract_cmd = tesseract_path
+else:
+    pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+    
 

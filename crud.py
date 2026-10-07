@@ -1,3 +1,4 @@
+import psycopg2
 from database import get_connection
 
 def insert_package(image_bytes, package_image_bytes, name, unit, phone, delivery_company):
@@ -6,8 +7,10 @@ def insert_package(image_bytes, package_image_bytes, name, unit, phone, delivery
     cursor.execute("""
         INSERT INTO ExtractedDocs 
             (ImageData, PackageImage, ResidentName, Unit, PhoneNumber, DeliveryComp_Name)
-        VALUES (?, ?, ?, ?, ?, ?)
-    """, (image_bytes, package_image_bytes, name, unit, phone, delivery_company))
+        VALUES (%s, %s, %s, %s, %s, %s)
+    """, (psycopg2.Binary(image_bytes), 
+          psycopg2.Binary(package_image_bytes) if package_image_bytes else None,
+          name, unit, phone, delivery_company))
     conn.commit()
     conn.close()
 
@@ -25,10 +28,10 @@ def get_all_packages():
     conn.close()
 
     for row in rows:
-        if row['DateLogged']:
-            row['DateLogged'] = row['DateLogged'].strftime('%Y-%m-%d %H:%M')
-        if row['DateCollected']:
-            row['DateCollected'] = row['DateCollected'].strftime('%Y-%m-%d %H:%M')
+        if row['datelogged']:
+            row['DateLogged'] = row['datelogged'].strftime('%Y-%m-%d %H:%M')
+        if row['datecollected']:
+            row['DateCollected'] = row['datecollected'].strftime('%Y-%m-%d %H:%M')
     return rows
 
 def mark_as_collected(package_id, collected_by, relation):
@@ -37,9 +40,9 @@ def mark_as_collected(package_id, collected_by, relation):
     cursor.execute("""
         UPDATE ExtractedDocs
         SET Status = 'Collected',
-            CollectedBy = ?,
-            Relation = ?
-        WHERE ID = ?
+            CollectedBy = %s,
+            Relation = %s
+        WHERE ID = %s
         """, (collected_by, relation, package_id))
     conn.commit()
     conn.close()
