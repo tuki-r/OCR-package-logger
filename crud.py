@@ -18,8 +18,10 @@ def get_all_packages():
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("""
-        SELECT ID, ResidentName, Unit, PhoneNumber, DeliveryComp_Name, 
-               Status, DateLogged, DateCollected, CollectedBy, Relation
+        SELECT id AS "ID", residentname AS "ResidentName", unit AS "Unit",
+        phonenumber AS "PhoneNumber", deliverycomp_name AS "DeliveryComp_Name",
+        status AS "Status", datelogged AS "DateLogged", datecollected AS "DateCollected", collectedby AS "CollectedBy",
+        relation AS "Relation"
         FROM ExtractedDocs
         ORDER BY DateLogged DESC
     """)
@@ -28,10 +30,10 @@ def get_all_packages():
     conn.close()
 
     for row in rows:
-        if row['datelogged']:
-            row['DateLogged'] = row['datelogged'].strftime('%Y-%m-%d %H:%M')
-        if row['datecollected']:
-            row['DateCollected'] = row['datecollected'].strftime('%Y-%m-%d %H:%M')
+        if row['DateLogged']:
+            row['DateLogged'] = row['DateLogged'].strftime('%Y-%m-%d %H:%M')
+        if row['DateCollected']:
+            row['DateCollected'] = row['DateCollected'].strftime('%Y-%m-%d %H:%M')
     return rows
 
 def mark_as_collected(package_id, collected_by, relation):
@@ -50,15 +52,16 @@ def mark_as_collected(package_id, collected_by, relation):
 def remove_package(package_id: int):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("DELETE FROM ExtractedDocs WHERE ID = ?", (package_id,))
+    cursor.execute("DELETE FROM ExtractedDocs WHERE ID = %s", (package_id,))
     conn.commit()
     conn.close()
 
 def get_package_image(package_id: int, type: str = "sticker"):
     conn = get_connection()
     cursor = conn.cursor()
-    allowed_columns = {"sticker": "ImageData", "package": "PackageImage"} 
-    column = allowed_columns.get(type, "ImageData")  # Default to ImageData if type is invalid 
+    allowed_columns = {"sticker": "imagedata", "package": "packageimage"} 
+    column = allowed_columns.get(type, "imagedata")  # Default to ImageData if type is invalid 
+    cursor.execute(f"SELECT {column} FROM ExtractedDocs WHERE ID = %s", (package_id,))
     row = cursor.fetchone()
     conn.close()
     return row[0] if row else None

@@ -18,8 +18,7 @@ from crud import insert_package, get_all_packages, mark_as_collected, remove_pac
 # register HEIF opener for handling HEIC/HEIF images
 register_heif_opener()
 
-# Set the path to the Tesseract executable
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -119,10 +118,6 @@ if __name__ == "__main__":
         workers=4
     )
 
-tesseract_path = shutil.which("tesseract")
-if tesseract_path:
-    pytesseract.pytesseract.tesseract_cmd = tesseract_path
-else:
-    pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
-    
+pytesseract.pytesseract.tesseract_cmd = shutil.which("tesseract") or r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+
 

@@ -70,7 +70,7 @@ function renderTable(packages) {
     if (filtered.length === 0) {
         tbody.innerHTML = `
             <tr>
-                <td colspan="7">
+                <td colspan="10">
                     <div class="empty-state">
                         <div class="icon">.</div>
                         No packages found
